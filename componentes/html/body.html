@@ -1,0 +1,268 @@
+    <div class="loader" id="loading">
+      <div class="loader-wheel"></div>
+      <div class="loader-text"></div>
+    </div>
+
+    <!--<div id="loading" class="lds-dual-ring">Obteniendo datos del documento....</div> -->
+    <header id="cabecera">
+      <div>
+        <div class="top-container fixed-top">
+          <!-- navbar -->
+
+          <nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
+            <!--  <a class="navbar-brand"><img src="img/ii.png"></a> -->
+
+            <button
+              type="button"
+              class="navbar-toggler bg-light"
+              data-toggle="collapse"
+              data-target="#nav"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div
+              class="collapse navbar-collapse justify-content-between"
+              id="nav"
+            >
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link text-light font-weight-bold px-3" href="https://us-central1-sdocid.cloudfunctions.net/app"
+                    >Home</a
+                  >
+                </li>
+
+                <li class="nav-item">
+                  <a
+                    class="nav-link text-light font-weight-bold px-3"
+                    href="https://us-central1-sdocid.cloudfunctions.net/app"
+                    >Escanear</a
+                  >
+                </li>
+
+                <li class="nav-item">
+                  <a
+                    class="nav-link text-light font-weight-bold px-3"
+                    href="https://us-central1-sdocid.cloudfunctions.net/utils"
+                    >Utilidades</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="main" id="main">
+      <div id="datosreserva">
+        <button
+          class="btn btn-dark"
+          data-toggle="collapse"
+          data-target="#demo"
+          id="butto"
+        >
+          Datos de la reserva
+        </button>
+        <div id="demo" class="titulo">
+          <p>
+            <label for="reserva">Reserva: </label>
+            <input type="text" id="reserva" placeholder="Reserva" />
+          </p>
+          <p>
+            <label for="localizador">Localizador: </label>
+            <input type="text" id="localizador" placeholder="Localizador" />
+          </p>
+          <div id="tipoinqui">
+
+            <input type="radio" name="tipoinqui" value="0" checked />
+            <label class="textradio">Principal</label>
+
+            <br />
+
+            <input type="radio" name="tipoinqui" value="1" />
+            <label class="textradio">Acompañante</label>
+            <br />
+          </div>
+        </div>
+      </div>
+
+      <div class="titulo">
+        <label for="ficheroscan">
+          <i class="fas fa-file-import fa-5x"></i>
+        </label>
+
+        <input
+          type="file"
+          name="file-5"
+          id="ficheroscan"
+          class="inputfile"
+          accept="image/png, image/jpeg"
+        />
+
+        <div id="mensaje"></div>
+
+        <!-- <p id="textolimpio"></p>
+   
+  -->
+
+        <input
+          class="bt bg-dark text-white editdatos"
+          id="editardatos"
+          value="Editar"
+          type="button"
+        />
+      </div>
+      <!-- -->
+
+      <div>
+        <img id="imagendoc" alt="foto documento" />
+      </div>
+      <div id="tablaresultados">
+        <div id="tabladinamica"></div>
+
+        <table id="table">
+          <tr>
+            <td class="descripcion1">Tipo Doc.</td>
+            <td>
+              <input
+                class="resultado1"
+                type="text"
+                id="documentCode"
+                readonly
+              />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion2">País</td>
+            <td>
+              <input
+                class="resultado2"
+                type="text"
+                id="issuingState"
+                readonly
+              />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion1">Nombre</td>
+            <td>
+              <input class="resultado1" type="text" id="firstName" readonly />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion2">Apellidos</td>
+            <td>
+              <input class="resultado2" type="text" id="lastName" readonly />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion1">Nº Doc.</td>
+            <td>
+              <input
+                class="resultado1"
+                type="text"
+                id="documentNumber"
+                readonly
+              />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion2">Nacionalidad</td>
+            <td>
+              <input class="resultado2" type="text" id="nationality" readonly />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion1">F.Nacimiento</td>
+            <td>
+              <input class="resultado1" type="text" id="birthDate" readonly />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion2">Sexo</td>
+            <td>
+              <input class="resultado2" type="text" id="sex" readonly />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion1">F.Cad. Doc.</td>
+            <td>
+              <input
+                class="resultado1"
+                type="text"
+                id="expirationDate"
+                readonly
+              />
+            </td>
+          </tr>
+          <tr>
+            <td class="descripcion2">Nº. Doc. Id</td>
+            <td>
+              <input class="resultado2" type="text" id="optional1" readonly />
+            </td>
+          </tr>
+        </table>
+
+        <!-- -->
+
+        <button id="leerdatoslocales">Leer datos locales</button>
+
+        <button id="buttonborrardatoslocales">Eliminar datos locales</button>
+
+        <button id="botoninvisible">Mostrar firma</button>
+        <div id="contenedorlienzofirma">
+          <div>
+            <p id="textofirma">Firmar Documento</p>
+            <button id="guardarfirma">Guardar Datos</button>
+            <span>
+              <br />
+
+              <br />
+              <br />
+            </span>
+
+            <div id="lienzo"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div>
+        <div class="botton-container" id="footer">
+          <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-bottom">
+            <section>
+              <div class="container">
+                <div class="row" style="height: 5vh">
+                  <ul class="nav" style="font-size:0.8em;">
+                    <li class="nav-item">
+                      <a
+                        class="nav-link text-light font-weight-bold px-3"
+                        href="https://us-central1-sdocid.cloudfunctions.net/app"
+                        >Home</a
+                      >
+                    </li>
+
+                    <li class="nav-item">
+                      <a
+                        class="nav-link text-light font-weight-bold px-3"
+                        href="https://us-central1-sdocid.cloudfunctions.net/app"
+                        >Escanear</a
+                      >
+                    </li>
+
+                    <li class="nav-item">
+                      <a
+                        class="nav-link text-light font-weight-bold px-3"
+                        href="https://us-central1-sdocid.cloudfunctions.net/utils"
+                        >Utilidades</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </nav>
+        </div>
+      </div>
+    </footer>

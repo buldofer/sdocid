@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+   
+
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>SCANDOC</title>
+
+    <script type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
+
+    <script type="text/javascript" src="./js/tesseract.js"></script>
+
+
+</head>
+
+<body>
+
+   <p id="demo">ddddddddddddd</p>
+
+    <div id="cuadromrz" class="is-centered" align="center">
+
+    
+        <div id="resultado"></div>
+    
+        <div class="camera">
+    
+            <video id="video">El vídeo de la camara no está disponible...</video>
+    
+        </div>
+    
+    
+        <canvas id="canvas"></canvas>
+    
+        <div id="salida">
+    
+            <img id="photo" alt=" ">
+    
+        </div>
+    
+        <div id="errores"></div>
+    
+        <div id="transcription"></div>
+    
+    
+        <progress id="procesobusquedamrz" class="progress is-large is-info" max="100"></progress>
+    
+        <div id="botones" align="center">
+    
+            <button id="tomadedatos" class="button"></button>
+    
+    
+            <input type="file" id="buscarimagen" class="button" multiple="multiple" onchange="load_file()" />
+    
+            <label for="buscarimagen" id="labelbuscarimagen" class="button"></label>
+    
+    
+            <!--			<img id="thumbnil" style="width:20%; margin-top:10px; display: none;" alt="image" /> -->
+    
+    
+            <button id="capturaarchivo" class="button">Capturar archivo</button>
+    
+            <button id="agregardoc" class="button is-rounded botones"
+                style="margin-top: 10px; margin-bottom: 10px; background-color:red; text-decoration-color: black;width: 75%;"
+                onClick="agregardocumento()"> Agregar documento </button>
+    
+            <button id="startbutton" class="button is-rounded botones"
+                style="margin-top: 15px; margin-bottom: 15px; background-color: lightblue; text-decoration-color: white; width: 75%;"></button>
+    
+            <button id="resetformulario" class="button is-rounded botones"
+                style="margin-top: 10px; margin-bottom: 10px; background-color:red; text-decoration-color: black;width: 75%;"
+                onClick="resetformularioClick()"></button>
+    
+            <button id="crearxml" class="button is-rounded botones"
+                style="margin-top: 10px; margin-bottom: 10px; background-color:red; text-decoration-color: black;width: 75%;"
+                onClick="crearficherosxml()"> Crear XML </button>
+    
+    
+            <form name="form" id="form" hidden>
+    
+                <textarea type="hidden" name="base64" id="base64"></textarea>
+    
+                <input type="submit" />
+    
+            </form>
+    
+        </div>
+    
+    
+        <!-- -->
+    
+    
+    
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth is-center" align="center"
+            id="tablamrz" style="display: none">
+    
+            <tbody align="center">
+    
+                <tr>
+                    <td>
+                        <img id="thumbnil" style="width:100%; margin-top:10px; display: none;" alt="image" />
+    
+                    </td>
+    
+                </tr>
+                <tr>
+                    <td>Tipo de documento</td>
+                    <td id="documentType"></td>
+                </tr>
+                <tr>
+                    <td>País</td>
+                    <td id="issuer"></td>
+                </tr>
+                <tr>
+                    <td>Nombre</td>
+                    <td id="otherNames"></td>
+                </tr>
+                <tr>
+                    <td>Apellidos</td>
+                    <td id="lastName"></td>
+                </tr>
+                <tr>
+                    <td>Número de documento</td>
+                    <td id="documentNumber"></td>
+                </tr>
+                <tr>
+                    <td>Nacionalidad</td>
+                    <td id="nationality"></td>
+                </tr>
+                <tr>
+                    <td>Fecha nacimiento</td>
+                    <td id="birthDate"></td>
+                </tr>
+                <tr>
+                    <td>Sexo</td>
+                    <td id="sex"></td>
+                </tr>
+                <tr>
+                    <td>Fecha caducidad documento</td>
+                    <td id="expiryDate"></td>
+                </tr>
+                <tr>
+                    <td>Número documento</td>
+                    <td id="personalNumber"></td>
+                </tr>
+    
+            </tbody>
+    
+        </table>
+    
+        <div id="contenedorlienzofirma">
+    
+            <p>Firmar Documento:</p>
+    
+            <div id="lienzo"></div>
+    
+            <input name="guardar" type="button" value="guardar" onclick="guardarfirma();">
+    
+        </div>
+    
+        <!--	<button id="verpartepantalla1" class="button is-rounded botones"	style="margin-top: 10px; margin-bottom: 10px; background-color:red; text-decoration-color: black;width: 75%;" onclick="verpartepantalla()"> Ver Parte del Viajero </button>
+    -->
+    </div>
+
+    <script src="./js/jquery-3.3.1.slim.min.js"></script>
+    <script src="./js/jquery-3.4.1.min.js"></script>
+
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/cropper.js"></script>
+
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/mrztest.js"></script>
+
+    <script>
+
+        var photo = document.getElementById('photo');
+
+            var salida = document.getElementById('salida');
+
+            var video = document.getElementById('video');
+
+            var tablamrz = document.getElementById('tablamrz');
+
+            var canvas = document.getElementById('canvas');
+
+            var startbutton = document.getElementById('startbutton');
+
+            var capturaarchivo = document.getElementById('capturaarchivo');
+
+            var procesobusquedamrz1 = document.getElementById('procesobusquedamrz');
+
+
+        window.Tesseract = Tesseract.create({
+            // Path to worker
+            workerPath: 'http:192.168.0.15:8081/js/worker.js',
+        // Path of folder where the language trained data is located
+        // note the "/" at the end, this string will be concatenated with the selected language
+        langPath: 'http:192.168.0.15:8081/lang/',
+        // Path to index script of the tesseract core ! https://github.com/naptha/tesseract.js-core
+        corePath: 'http:192.168.0.15:8081/js/index.js',
+ 
+    });
+
+        // https://apps.fomento.gob.es/crgt/servlet/ServletController?modulo=datosconsulta&tpsolic=M&accion=consultar_nif&consulta=2687-HRL&nocaptcha=si&btnOk=Consultar
+
+
+        
+            /*
+                xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+                    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    xhttp.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
+                    xhttp.setRequestHeader("Access-Control-Allow-Headers", "Content-Type");
+                    xhttp.setRequestHeader("Access-Control-Request-Headers", "X-Requested-With, accept, content-type");
+            */
+
+
+            function load_file() {
+
+                    photo.style.display = "block";
+
+                    var reader = new FileReader();
+
+                    reader.onload = function () {
+
+                        var img = null;
+
+                        img = new Image();
+
+                        img.src = reader.result;
+
+                        img.onload = function () {
+
+                            document.getElementById('resultado').innerHTML = '';
+
+                          //  document.getElementById('resultado').appendChild(img);
+
+                            img.style.visibility = "hidden";
+
+                            img.setAttribute('id', 'imagenfichero');
+
+                            photo.setAttribute('src', img.src);
+
+                            continuarescaneando();
+
+                            document.getElementById('resultado').style.display = "block";
+
+                            salida.style.display = "block";
+
+                            video.style.display = "none";
+
+
+
+                            /*
+                            buscarimagen.style.display = "none";
+            	
+                            labelbuscarimagen.style.display = "none";
+            
+                            */
+
+                            tomadedatos.style.display = "none";
+
+                            //continuarescaneando();
+
+                        };
+
+                    };
+
+                    reader.readAsDataURL(document.getElementById('buscarimagen').files[0]);
+
+                    //continuarescaneando();
+
+
+                }
+
+    function continuarescaneando() {
+
+        cropper = new Cropper(photo, {
+
+            dragMode: 'none',
+            viewMode: 1,
+            autoCropArea: 1,
+            background: false,
+            zoomable: false,
+            zoomOnWheel: false,
+            restore: false,
+            guides: false,
+            center: false,
+            highlight: true,
+            cropBoxMovable: false,
+            cropBoxResizable: false,
+            toggleDragModeOnDblclick: false,
+
+
+        });
+
+
+        cropper.crop();
+
+
+        photo.addEventListener('crop', function () {
+
+            var canvascropped = cropper.getCroppedCanvas();
+
+            canvascropped.imageSmoothingQuality = "high";
+
+            tess(canvascropped, 1);
+
+            procesobusquedamrz1.style.display = "block";
+
+        });
+
+
+        //cropper.reset();
+
+    }
+
+
+    function cleanText(string) {
+
+            var specialChars = "!@#$^&%*()+=-[]\/{}|_>:?,.¡¿'`´ ";
+
+            for (var i = 0; i < specialChars.length; i++) {
+
+                string = string.replace(new RegExp('\\' + specialChars[i], 'gm'), '');
+            }
+
+           //string = string.replace(/([\r\n\\])+/g, '');
+
+          string = string.replace(/([\\])+/g, '');
+           //string = string.replace(/([\r\n])+/g, "");
+
+            return string;
+
+        }
+
+
+            
+            
+                function tess(canvaaa, control) {
+
+                    var resultadodefinitivo;
+
+                    if (control === 1) {
+
+                        let tesseractSettings = {
+
+                            lang: 'mrz'
+
+
+                        };
+
+
+                        // Convert an image to text. This task works asynchronously, so you may show
+                        // your user a loading dialog or something like that, or show the progress with Tesseract
+
+                        Tesseract.recognize(canvaaa, tesseractSettings).then(function (result) {
+
+                            // The result object of a text recognition contains detailed data about all the text
+                            // recognized in the image, words are grouped by arrays etc
+
+                            //document.getElementById('tabladoc').style.display  = "block";
+
+                            document.getElementById('transcription').style.display = "block";
+
+                            procesobusquedamrz1.style.display = "block";
+
+
+                           var textolimpio = cleanText(result.text);
+
+                       //    textolimpio = textolimpio.replace(/\n/, '');
+
+                           // textolimpio = textolimpio.replace(/\n/, '');
+                
+
+                          // var hh = check(cleanText(result.text));
+
+                             //console.log(" Valor de hh: " + hh);
+
+                            console.log(" TODO EL TEXTO " + textolimpio);
+
+                            document.getElementById('transcription').innerText = textolimpio;
+
+
+
+                    // var lineasmrz = textolimpio.match(/.+((\w<[<]{1,}\w*)|.+(\d<[<]{1,}\d*$){30,44})/gmi);
+
+                   // var lineasmrz = textolimpio.match(/.+([A-Z0-9])+[<]+([^A-Z0-9])+[<].+/g);
+
+                    
+                    var lineasmrz = [textolimpio.match(/.+([A-Z0-9])[<]+([0-9])*[<].+/gm)];
+
+
+
+                    
+
+                       console.log("Match encontrado: " + lineasmrz);
+
+
+                        console.log("Match encontrado 0: " + lineasmrz[0]);
+
+                       console.log("Match encontrado 1: " + lineasmrz[0][0]);
+
+                       console.log("Match encontrado 2: " + lineasmrz[0][1]);
+
+                  
+                 
+                    /*    
+                         
+                       var matchlimpio;
+
+                            if (match != null) {
+
+                                matchlimpio = match;
+
+                                var rematchlimpio;
+
+                                rematchlimpio = matchlimpio;
+
+
+                              rematchlimpio = rematchlimpio.replace(/.+(?=ID|(P<\b))/, '');
+
+
+                                console.log("matchlimpio : " + rematchlimpio); // I'm Jack, or johnny, but I prefer Jack.
+
+                                // document.getElementById('transcription').innerText = rematchlimpio+ " Tamaño : " + rematchlimpio.length.toString() ;
+
+                                console.log("transcription: " + rematchlimpio + " Tamaño : " + rematchlimpio.length.toString());
+
+
+                               // CosultaMrz(rematchlimpio);
+
+                            } else {
+
+
+                                console.log("match es nulo"); // I'm Jack, or johnny, but I prefer Jack.
+
+                            }
+
+*/
+
+                        });
+
+
+                    } else if (control === 0) {
+
+                        document.getElementById('transcription').innerText = "Documento encontrado";
+
+                    }
+
+                }
+
+    </script>
+
+</body>
+
+</html>

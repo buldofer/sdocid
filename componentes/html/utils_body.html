@@ -1,0 +1,175 @@
+<body>
+  <div class="loader" id="loading">
+    <div class="loader-wheel"></div>
+    <div class="loader-text"></div>
+  </div>
+
+  <!--<div id="loading" class="lds-dual-ring">Obteniendo datos del documento....</div> -->        
+  
+  <header id="cabecera">
+      <div>
+        <div class="top-container fixed-top">
+          <!-- navbar -->
+
+          <nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
+            <!--  <a class="navbar-brand"><img src="img/ii.png"></a> -->
+
+            <button
+              type="button"
+              class="navbar-toggler bg-light"
+              data-toggle="collapse"
+              data-target="#nav"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div
+              class="collapse navbar-collapse justify-content-between"
+              id="nav"
+            >
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link text-light font-weight-bold px-3" href="https://us-central1-sdocid.cloudfunctions.net/app"
+                    >Home</a
+                  >
+                </li>
+
+                <li class="nav-item">
+                  <a
+                    class="nav-link text-light font-weight-bold px-3"
+                    href="https://us-central1-sdocid.cloudfunctions.net/app"
+                    >Escanear</a
+                  >
+                </li>
+
+                <li class="nav-item">
+                  <a
+                    class="nav-link text-light font-weight-bold px-3"
+                    href="https://us-central1-sdocid.cloudfunctions.net/utils"
+                    >Utilidades</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+  <main class="main" id="main">
+    <div id="datosreserva">
+      <button
+        class="btn btn-dark"
+        data-toggle="collapse hidden"
+        data-target="#demo"
+        id="buttondatosreserva"
+      >
+        Viviendas a revisar
+      </button>
+      <div id="demo" class="titulo">
+        <!-- 
+            <button id="bborrardatoslocalesutils">Eliminar datos locales</button>
+
+     <select id="listaviviendas"></select>
+
+       <select id="listareservas"></select> 
+
+          <button id="bleerdatosreservaesutils">
+            Seleccionar vivienda
+          </button>
+
+          <button id="bleerdatoslocalesutils">Leer datos locales</button>
+
+       
+
+        
+    <p id="cuadrop"> Viviendas a revisar </p>
+
+
+     -->
+
+        <div id="cuadrolistavivienda">
+          <select id="listaviviendasarevisar"></select>
+        </div>
+
+        <p></p>
+
+        <div id="cuadroedicion">
+          <div id="tabladinamica" class="tabladinamica"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="titulo">
+      <label for="ficheroscan">
+        <i class="fas fa-file-import fa-5x"></i>
+      </label>
+
+      <div id="mensaje"></div>
+
+      <input
+        class="bt bg-dark text-white editdatos"
+        id="editardatos"
+        value="Editar"
+        type="button"
+      />
+    </div>
+
+    <!-- -->
+
+    <!-- -->
+  </main>
+
+     <footer id="footer">
+      <div>
+        <div class="botton-container" id="footer">
+          <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-bottom">
+            <section>
+              <div class="container">
+                <div class="row" style="height: 5vh">
+                  <ul class="nav" style="font-size:0.8em;">
+                    <li class="nav-item">
+                      <a
+                        class="nav-link text-light font-weight-bold px-3"
+                        href="https://us-central1-sdocid.cloudfunctions.net/app"
+                        >Home</a
+                      >
+                    </li>
+
+                    <li class="nav-item">
+                      <a
+                        class="nav-link text-light font-weight-bold px-3"
+                        href="https://us-central1-sdocid.cloudfunctions.net/app"
+                        >Escanear</a
+                      >
+                    </li>
+
+                    <li class="nav-item">
+                      <a
+                        class="nav-link text-light font-weight-bold px-3"
+                        href="https://us-central1-sdocid.cloudfunctions.net/utils"
+                        >Utilidades</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+
+    <script>
+    
+   $(window).on("load",function() {
+
+
+    $('#buttondatosreserva').click();
+     
+
+    });
+    
+    </script>
+</body>
